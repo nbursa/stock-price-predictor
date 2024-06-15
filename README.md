@@ -4,6 +4,8 @@
 
 The Stock Price Predictor is a Real-Time web application that predicts future stock prices of selected companies using historical stock price data and machine learning models. The application provides real-time updates and visualizations to help users make informed investment decisions.
 
+⚠️ This project is currently in progress. Some features may not be fully implemented or functional. Please check back later for updates.
+
 ## Features
 
 - **Data Collection:** Fetch historical stock price data from a reliable API.
