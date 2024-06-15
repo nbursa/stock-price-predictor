@@ -7,6 +7,7 @@
           <li><router-link to="/" class="text-blue-500">Home</router-link></li>
           <li><router-link to="/dashboard" class="text-blue-500">Dashboard</router-link></li>
           <li><router-link to="/settings" class="text-blue-500">Settings</router-link></li>
+          <li><router-link to="/predictions" class="text-blue-500">Predictions</router-link></li>
         </ul>
       </div>
     </nav>

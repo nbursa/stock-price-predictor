@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import pickle
 import pandas as pd
 
 app = Flask(__name__)
+CORS(app)
 
 # Load the trained model
 with open('stock_model.pkl', 'rb') as f:

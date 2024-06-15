@@ -3,6 +3,7 @@ import Home from '../views/Home.vue';
 import Dashboard from '../views/Dashboard.vue';
 import StockDetails from '../views/StockDetails.vue';
 import Settings from '../views/Settings.vue';
+import StockPredictions from '../views/StockPredictions.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -26,7 +27,11 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Settings',
         component: Settings,
     },
-    // Add other routes here
+    {
+        path: '/predictions',
+        name: 'StockPredictions',
+        component: StockPredictions,
+    },
 ];
 
 const router = createRouter({
