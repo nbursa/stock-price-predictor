@@ -7,7 +7,7 @@
     <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
       <div class="card p-6 bg-white rounded-lg shadow-md">
         <h2 class="text-xl font-semibold text-gray-700 mb-2">Total Stocks Analyzed</h2>
-        <p class="text-3xl font-bold text-blue-500">120</p>
+        <p class="text-3xl font-bold text-blue-500">{{ totalStocks }}</p>
       </div>
       <div class="card p-6 bg-white rounded-lg shadow-md">
         <h2 class="text-xl font-semibold text-gray-700 mb-2">Prediction Accuracy</h2>
@@ -30,19 +30,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td class="py-2 px-4 border-b border-gray-200">AAPL</td>
-          <td class="py-2 px-4 border-b border-gray-200">$150.00</td>
-          <td class="py-2 px-4 border-b border-gray-200">$148.50</td>
-          <td class="py-2 px-4 border-b border-gray-200 text-green-500">98.67%</td>
+        <tr v-for="stock in stocks" :key="stock._id">
+          <td class="py-2 px-4 border-b border-gray-200">{{ stock.name }}</td>
+          <td class="py-2 px-4 border-b border-gray-200">${{ stock.predictedPrice }}</td>
+          <td class="py-2 px-4 border-b border-gray-200">${{ stock.actualPrice }}</td>
+          <td class="py-2 px-4 border-b border-gray-200 text-green-500">{{ stock.accuracy }}%</td>
         </tr>
-        <tr>
-          <td class="py-2 px-4 border-b border-gray-200">GOOGL</td>
-          <td class="py-2 px-4 border-b border-gray-200">$2800.00</td>
-          <td class="py-2 px-4 border-b border-gray-200">$2750.00</td>
-          <td class="py-2 px-4 border-b border-gray-200 text-green-500">96.43%</td>
-        </tr>
-        <!-- Add more rows as needed -->
         </tbody>
       </table>
     </section>
@@ -57,10 +50,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
+import { fetchStocks } from '../services/api';
+import { Stock } from '../types';
 
 export default defineComponent({
   name: 'DashboardPage',
+  setup() {
+    const stocks = ref<Stock[]>([]);
+    const totalStocks = ref<number>(0);
+
+    onMounted(async () => {
+      const data = await fetchStocks();
+      stocks.value = data;
+      totalStocks.value = data.length;
+    });
+
+    return {
+      stocks,
+      totalStocks,
+    };
+  },
 });
 </script>
 
