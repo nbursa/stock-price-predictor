@@ -29,24 +29,86 @@ The Stock Price Predictor is a Real-Time web application that predicts future st
    cd stock-price-predictor
    ```
 
-2. **Install dependencies:**
+### Setting up the Client
+
+1. **Navigate to the `src` directory:**
+   ```sh
+   cd src
+   ```
+
+2. **Install client dependencies:**
    ```sh
    npm install
    ```
 
-3. **Set up environment variables:**
-   - Create a `.env` file in the project root.
-   - Add your API keys and other configuration settings.
-
-### Running the Application
-
-1. **Start the development server:**
+3. **Start the development server for the client:**
    ```sh
    npm run dev
    ```
 
-2. **Open the application:**
+4. **Open the client application:**
    - Open your browser and navigate to `http://localhost:5173`.
+
+### Setting up the Server
+
+1. **Navigate to the `server` directory:**
+   ```sh
+   cd server
+   ```
+
+2. **Install server dependencies:**
+   ```sh
+   npm install
+   ```
+
+3. **Set up environment variables for the server:**
+   - Create a `.env` file in the `server` directory.
+   - Add your database connection string and other configuration settings.
+
+4. **Start the server:**
+   ```sh
+   npm run dev
+   ```
+
+### Setting up the Model
+
+1. **Navigate to the `model` directory:**
+   ```sh
+   cd model
+   ```
+
+2. **Create a virtual environment:**
+   ```sh
+   python -m venv venv
+   ```
+
+3. **Activate the virtual environment:**
+   ```sh
+   source venv/bin/activate
+   ```
+
+4. **Install model dependencies:**
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+5. **Set up environment variables for the model:**
+   - Create a `.env` file in the `model` directory.
+   - Add your API keys and other configuration settings.
+
+6. **Run the model server:**
+   ```sh
+   python app.py
+   ```
+
+### Running the Application
+
+1. **Start the client and server:**
+   - Follow the instructions above to start both the client and server.
+
+2. **Open the application:**
+   - Open your browser and navigate to `http://localhost:5173` for the client.
+   - The server will be running on `http://localhost:5000` (or the specified port).
 
 ### Directory Details
 
