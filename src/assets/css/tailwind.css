@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --color-primary: #35a7ff;
+    --color-secondary: #38618c;
+    --color-background: #ffffff;
+    --color-text: #38618c;
+    --color-accent: #ff5964;
+    --color-highlight: #ffe74c;
+    --color-shadow: rgba(0, 0, 0, 0.5);
+
+    /* Font configuration */
+    --font-family-sans: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+    --font-family-mono: 'Fira Code', monospace;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 1.5rem;
+    --font-size-2xl: 2rem;
+    --font-size-3xl: 2.5rem;
+    --line-height-base: 1.5;
+    --line-height-tight: 1.2;
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+    background-color: var(--color-text);
+    color: var(--color-background);
+}
+
+/*body {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+a:hover {
+    color: var(--color-text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--spacing-sm);
+}
+
+h1 {
+    font-size: var(--font-size-3xl);
+}
+h2 {
+    font-size: var(--font-size-2xl);
+}
+h3 {
+    font-size: var(--font-size-xl);
+}
+h4 {
+    font-size: var(--font-size-lg);
+}
+h5 {
+    font-size: var(--font-size-base);
+}
+h6 {
+    font-size: var(--font-size-sm);
+}
+
+/*p {*/
+/*    margin-bottom: var(--spacing-sm);*/
+/*}*/
+
+ul, ol {
+    margin-bottom: var(--spacing-sm);
+    padding-left: var(--spacing-lg);
+    list-style: none;
+}
+
+button {
+    font-family: inherit;
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    line-height: var(--line-height-base);
+    color: var(--color-primary);
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-primary);
+    border-radius: 0.5em;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+button:hover {
+    color: var(--color-text);
+    background-color: var(--color-primary);
+}
+button:focus,
+button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 0.2em rgba(100, 108, 255, 0.5);
+}
+
+.card {
+    background-color: var(--color-background);
+    border-radius: 1em;
+    padding: var(--spacing-lg);
+    box-shadow: 0 0 1em var(--color-shadow);
+    color: var(--color-text);
+}
+
+code {
+    font-family: var(--font-family-mono);
+    background-color: var(--color-secondary);
+    padding: var(--spacing-xs);
+    border-radius: 0.25em;
+    color: var(--color-text);
+}
+
+pre {
+    background-color: var(--color-secondary);
+    padding: var(--spacing-md);
+    border-radius: 0.5em;
+    overflow-x: auto;
+    color: var(--color-text);
+}
+
+#app {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --color-background: #f9f9f9;
+        --color-text: #242424;
+    }
+    body {
+        background-color: var(--color-background);
+        color: var(--color-text);
+    }
+    a:hover {
+        color: var(--color-primary);
+    }
+    button {
+        color: var(--color-text);
+        background-color: var(--color-primary);
+        border-color: var(--color-primary);
+    }
+    .card {
+        background-color: #ffffff;
+    }
+}
