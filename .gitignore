@@ -7,14 +7,22 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Node modules
 node_modules
+server/node_modules
+
+# Build directories
 dist
 dist-ssr
-*.local
-
-server/.env
-server/node_modules
 server/dist
+
+# Environment variables
+.env
+server/.env
+model/.env
+
+# Python virtual environment
+model/venv/
 
 # Editor directories and files
 .vscode/*
@@ -26,4 +34,3 @@ server/dist
 *.njsproj
 *.sln
 *.sw?
-server/.env
