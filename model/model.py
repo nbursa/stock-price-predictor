@@ -4,7 +4,7 @@ from sklearn.linear_model import LinearRegression
 import pickle
 
 # Load dataset
-data = pd.read_csv('path_to_your_dataset.csv')
+data = pd.read_csv('stocks_data.csv')
 
 # Preprocess data
 X = data[['feature1', 'feature2', 'feature3']]  # Replace with your features
