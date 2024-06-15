@@ -6,7 +6,8 @@
     --color-primary: #35a7ff;
     --color-secondary: #38618c;
     --color-background: #ffffff;
-    --color-text: #38618c;
+    /*--color-text: #38618c;*/
+    --color-text: #0D1117;
     --color-accent: #ff5964;
     --color-highlight: #ffe74c;
     --color-shadow: rgba(0, 0, 0, 0.5);
@@ -51,7 +52,7 @@ a {
     transition: color 0.2s;
 }
 a:hover {
-    color: var(--color-highlight);
+    color: var(--color-primary);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -88,8 +89,9 @@ input, select, textarea {
     font-size: var(--font-size-base);
     font-weight: 500;
     line-height: var(--line-height-base);
-    color: var(--color-text);
-    background-color: var(--color-background);
+    color: var(--color-background);
+    /*background-color: var(--color-background);*/
+    background-color: var(--color-secondary);
     border: 1px solid var(--color-secondary);
     border-radius: 0.5em;
     padding: var(--spacing-xs) var(--spacing-sm);
@@ -109,7 +111,7 @@ button {
     line-height: var(--line-height-base);
     color: var(--color-background);
     background-color: var(--color-secondary);
-    border: 1px solid var(--color-background);
+    /*border: 1px solid var(--color-background);*/
     border-radius: 0.5em;
     padding: var(--spacing-xs) var(--spacing-sm);
     cursor: pointer;
