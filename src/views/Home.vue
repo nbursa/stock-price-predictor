@@ -1,10 +1,11 @@
 <template>
   <div class="home p-4">
     <header class="header py-10 text-center max-w-lg mx-auto">
-      <h1 class="text-4xl font-bold">Welcome to the Real-Time Stock Price Predictor</h1>
-      <p class="text-lg mt-4">Predict future stock prices using machine learning models and view real-time updates.</p>
+      <div class="font-bold text-4xl mb-4">Welcome to the</div>
+      <h1 class="text-6xl font-extrabold"> Real-Time Stock Price Predictor</h1>
+      <p class=" mt-4">Predict future stock prices using machine learning models and view real-time updates.</p>
     </header>
-    <main class="mt-10">
+    <main class="mt-0">
       <div class="p-6 max-w-lg mx-auto">
         <h2 class="text-2xl font-semibold text-center">Features</h2>
         <ul class="mt-4 p-0 space-y-2 text-center">
