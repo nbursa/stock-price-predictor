@@ -17,3 +17,8 @@ export const addStock = async (data: any): Promise<Stock> => {
   const response = await apiClient.post('/stocks', data);
   return response.data;
 };
+
+export const getPredictions = async (data: any): Promise<number[]> => {
+  const response = await axios.post('http://localhost:5001/predict', data);
+  return response.data;
+};
