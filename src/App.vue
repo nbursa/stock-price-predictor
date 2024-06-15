@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100 text-gray-800 w-full h-full">
+  <div class="bg-gray-100 text-gray-800 w-full h-full flex flex-col">
     <nav class="bg-white shadow py-2 px-4">
       <div class="mx-auto flex items-center justify-between">
         <h1 class="text-xl font-bold m-0">Real-Time Stock Price Predictor</h1>
@@ -10,7 +10,7 @@
         </ul>
       </div>
     </nav>
-    <main class="mx-auto mt-4">
+    <main class="flex-1 mx-auto mt-4 w-full overflow-y-auto">
       <router-view />
     </main>
   </div>
