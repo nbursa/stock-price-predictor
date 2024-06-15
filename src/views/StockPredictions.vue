@@ -1,52 +1,55 @@
 <template>
-  <div class="p-6 bg-gray-100 min-h-screen">
+  <div class="p-6 min-h-screen">
     <h1 class="text-3xl font-bold mb-6">Stock Predictions</h1>
     <form @submit.prevent="predictStock" class="mb-6 max-w-xl mx-auto">
       <div class="grid grid-cols-2 gap-4 mb-4">
         <div class="">
-          <label for="open" class="block text-sm font-medium text-gray-700">Stock price (Open)</label>
-          <input id="open" type="number" v-model.number="inputData.Open" placeholder="Enter opening price" class="mt-1 w-full px-2 py-1 border rounded-lg" />
+          <label for="open" class="block text-sm font-medium ">Stock price (Open)</label>
+          <input id="open" type="number" v-model.number="inputData.Open" placeholder="Enter opening price" class="mt-1 w-full px-2 py-1 border rounded-lg text-gray-800" />
         </div>
         <div class="">
-          <label for="high" class="block text-sm font-medium text-gray-700">Stock price (High)</label>
-          <input id="high" type="number" v-model.number="inputData.High" placeholder="Enter highest price" class="mt-1 w-full px-2 py-1 border rounded-lg" />
+          <label for="high" class="block text-sm font-medium">Stock price (High)</label>
+          <input id="high" type="number" v-model.number="inputData.High" placeholder="Enter highest price" class="mt-1 w-full px-2 py-1 border rounded-lg text-gray-800" />
         </div>
         <div class="">
-          <label for="low" class="block text-sm font-medium text-gray-700">Stock price (Low)</label>
-          <input id="low" type="number" v-model.number="inputData.Low" placeholder="Enter lowest price" class="mt-1 w-full px-2 py-1 border rounded-lg" />
+          <label for="low" class="block text-sm font-medium">Stock price (Low)</label>
+          <input id="low" type="number" v-model.number="inputData.Low" placeholder="Enter lowest price" class="mt-1 w-full px-2 py-1 border rounded-lg text-gray-800" />
         </div>
         <div class="">
-          <label for="close" class="block text-sm font-medium text-gray-700">Stock price (Close)</label>
-          <input id="close" type="number" v-model.number="inputData.Close" placeholder="Enter closing price" class="mt-1 w-full px-2 py-1 border rounded-lg" />
+          <label for="close" class="block text-sm font-medium">Stock price (Close)</label>
+          <input id="close" type="number" v-model.number="inputData.Close" placeholder="Enter closing price" class="mt-1 w-full px-2 py-1 border rounded-lg text-gray-800" />
         </div>
       </div>
 
       <div class="md:col-span-2">
-        <button type="submit" class="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Predict</button>
+        <button type="submit" class="w-full px-4 py-2 bg-white text-gray-800 rounded-lg">Predict</button>
       </div>
     </form>
     <div v-if="loading" class="text-blue-500 mb-4">Fetching predictions...</div>
     <div v-if="status" class="text-blue-500 mb-4">{{ status }}</div>
     <div v-if="predictions.length">
-      <h2 class="text-2xl font-semibold mb-4">Predictions:</h2>
+      <h2 class="text-2xl font-semibold mb-4">Prediction:</h2>
       <ul class="space-y-2">
         <li v-for="(prediction, index) in predictions" :key="index" class="p-4 bg-white shadow rounded-lg">
-          Predicted Volume: {{ prediction.toFixed(2) }}
+          <span class="text-sm">Predicted Volume:</span> {{ prediction.toFixed(2) }}
         </li>
       </ul>
     </div>
     <div v-if="error" class="text-red-500">{{ error }}</div>
 
-    <div v-if="pastPredictions.length">
+    <div v-if="pastPredictions.length" class="flex flex-col items-center justify-between">
       <h2 class="text-2xl font-semibold mb-4">Past Predictions:</h2>
-      <ul class="space-y-2">
-        <li v-for="(pastPrediction, index) in pastPredictions" :key="index" class="p-4 bg-white shadow rounded-lg">
-          <div>Date: {{ new Date(pastPrediction.date).toLocaleString() }}</div>
-          <div>Open: {{ pastPrediction.Open }}</div>
-          <div>High: {{ pastPrediction.High }}</div>
-          <div>Low: {{ pastPrediction.Low }}</div>
-          <div>Close: {{ pastPrediction.Close }}</div>
-          <div>Predicted Volume: {{ pastPrediction.Prediction.toFixed(2) }}</div>
+      <ul class="flex flex-wrap gap-3 list-none m-0 p-0 mx-auto">
+        <li v-for="(pastPrediction, index) in pastPredictions" :key="index" class="p-2 pr-4 shadow-lg rounded-lg border border-white">
+
+          <div class="mb-4 text-xs pl-2 flex items-center justify-between"><span class="rounded-full bg-white text-gray-800 inline-flex w-5 h-5 items-center justify-center">{{index + 1}}</span> <span>Date: {{ new Date(pastPrediction.date).toLocaleString() }}</span></div>
+          <div class="flex items-center justify-start mb-4 text-sm pl-2">
+            <div class="mr-2">Open: {{ pastPrediction.Open }}</div>
+            <div class="mr-2">High: {{ pastPrediction.High }}</div>
+            <div class="mr-2">Low: {{ pastPrediction.Low }}</div>
+            <div>Close: {{ pastPrediction.Close }}</div>
+          </div>
+          <div class="text-xs text-end">Predicted Volume: <span class="text-lg">{{ pastPrediction.Prediction.toFixed(2) }}</span></div>
         </li>
       </ul>
     </div>

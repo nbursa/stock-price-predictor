@@ -1,16 +1,6 @@
 <template>
-  <div class="bg-gray-100 text-gray-800 w-full h-full flex flex-col">
-    <nav class="bg-white shadow py-2 px-4">
-      <div class="mx-auto flex items-center justify-between">
-        <h1 class="text-xl font-bold m-0">Real-Time Stock Price Predictor</h1>
-        <ul class="flex items-center justify-between gap-2 m-0 p-0">
-          <li><router-link to="/" class="text-blue-500">Home</router-link></li>
-          <li><router-link to="/dashboard" class="text-blue-500">Dashboard</router-link></li>
-          <li><router-link to="/settings" class="text-blue-500">Settings</router-link></li>
-          <li><router-link to="/predictions" class="text-blue-500">Predictions</router-link></li>
-        </ul>
-      </div>
-    </nav>
+  <div class="w-full h-full flex flex-col">
+    <NavBar />
     <main class="flex-1 mx-auto mt-4 w-full overflow-y-auto">
       <router-view />
     </main>
@@ -19,8 +9,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import NavBar from './components/NavBar.vue';
 
 export default defineComponent({
   name: 'App',
+  components: {
+    NavBar
+  }
 });
 </script>

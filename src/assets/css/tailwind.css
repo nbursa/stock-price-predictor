@@ -45,19 +45,13 @@ html, body {
     color: var(--color-background);
 }
 
-/*body {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
-
 a {
-    color: var(--color-primary);
+    color: var(--color-secondary);
     text-decoration: none;
     transition: color 0.2s;
 }
 a:hover {
-    color: var(--color-text);
+    color: var(--color-highlight);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -85,9 +79,22 @@ h6 {
     font-size: var(--font-size-sm);
 }
 
-/*p {*/
-/*    margin-bottom: var(--spacing-sm);*/
-/*}*/
+p {
+    margin-bottom: var(--spacing-sm);
+}
+
+input, select, textarea {
+    font-family: inherit;
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    line-height: var(--line-height-base);
+    color: var(--color-text);
+    background-color: var(--color-background);
+    border: 1px solid var(--color-secondary);
+    border-radius: 0.5em;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    transition: border-color 0.2s;
+}
 
 ul, ol {
     margin-bottom: var(--spacing-sm);
@@ -100,9 +107,9 @@ button {
     font-size: var(--font-size-base);
     font-weight: 500;
     line-height: var(--line-height-base);
-    color: var(--color-primary);
+    color: var(--color-background);
     background-color: var(--color-secondary);
-    border: 1px solid var(--color-primary);
+    border: 1px solid var(--color-background);
     border-radius: 0.5em;
     padding: var(--spacing-xs) var(--spacing-sm);
     cursor: pointer;
@@ -119,11 +126,11 @@ button:focus-visible {
 }
 
 .card {
-    background-color: var(--color-background);
     border-radius: 1em;
     padding: var(--spacing-lg);
     box-shadow: 0 0 1em var(--color-shadow);
-    color: var(--color-text);
+    color: var(--color-background);
+    background-color: var(--color-secondary);
 }
 
 code {
