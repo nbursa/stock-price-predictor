@@ -10,13 +10,6 @@ export const getStocks = async (req: Request, res: Response) => {
   }
 };
 
-// username: nbursa
-// password: qjSPnYlPwMvsRvkj
-// database: Stock Price Predictor
-// cluster: StockPriceCluster
-// collection: stocks
-// connection string: mongodb+srv://nbursa:qjSPnYlPwMvsRvkj@StockPriceCluster/Stock Price Predictor?retryWrites=true&w=majority
-
 export const addStock = async (req: Request, res: Response) => {
   const stock = new Stock({
     name: req.body.name,
