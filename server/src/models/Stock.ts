@@ -1,14 +1,11 @@
-import mongoose from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-const stockSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
+const stockSchema = new Schema({
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
+  predictedPrice: { type: Number },
+  actualPrice: { type: Number },
+  accuracy: { type: Number }
 });
 
-export default mongoose.model('Stock', stockSchema);
+export default model('Stock', stockSchema);

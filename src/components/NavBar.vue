@@ -7,7 +7,7 @@
         </svg>
       </button>
       <router-link to="/" class="text-xl font-bold text-gray-200">Stock Prediction</router-link>
-      <ul class="hidden md:flex items-center gap-2 m-0 ">
+      <ul class="hidden md:flex items-center gap-4 m-0 ">
         <li><router-link class="text-gray-200" to="/">Home</router-link></li>
         <li><router-link class="text-gray-200" to="/predictions">Predictions</router-link></li>
         <li><router-link class="text-gray-200" to="/dashboard">Dashboard</router-link></li>

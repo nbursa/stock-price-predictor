@@ -4,46 +4,41 @@
       <h1 class="text-4xl font-bold mb-2">Dashboard</h1>
       <p class="text-lg">Overview of stock predictions and analysis.</p>
     </header>
-    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+    <section class="flex flex-col md:flex-row gap-6 mb-6">
       <div class="card p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold mb-2">Total Stocks Analyzed</h2>
         <p class="text-3xl font-bold text-blue-500">{{ totalStocks }}</p>
       </div>
       <div class="card p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold mb-2">Prediction Accuracy</h2>
-        <p class="text-3xl font-bold text-green-500">85%</p>
+        <p class="text-3xl font-bold text-green-500">{{ predictionAccuracy }}%</p>
       </div>
       <div class="card p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold mb-2">Most Predicted Stock</h2>
-        <p class="text-3xl font-bold text-red-500">AAPL</p>
+        <p class="text-3xl font-bold text-red-500">{{ mostPredictedStock }}</p>
       </div>
     </section>
     <section class="rounded-lg shadow-md p-6 mb-6">
       <h2 class="text-2xl font-semibold mb-4">Recent Predictions</h2>
-      <table class="min-w-full">
-        <thead>
-        <tr>
-          <th class="py-2 px-4 text-left font-semibold">Stock</th>
-          <th class="py-2 px-4 text-left font-semibold">Predicted Price</th>
-          <th class="py-2 px-4 text-left font-semibold">Actual Price</th>
-          <th class="py-2 px-4 text-left font-semibold">Accuracy</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="stock in stocks" :key="stock._id">
-          <td class="py-2 px-4 border-b">{{ stock.name }}</td>
-          <td class="py-2 px-4 border-b">${{ stock.predictedPrice }}</td>
-          <td class="py-2 px-4 border-b">${{ stock.actualPrice }}</td>
-          <td class="py-2 px-4 border-b text-green-500">{{ stock.accuracy }}%</td>
-        </tr>
-        </tbody>
-      </table>
+      <div class="flex flex-col">
+        <div class="flex font-semibold">
+          <div class="w-1/4 py-2 px-4">Stock</div>
+          <div class="w-1/4 py-2 px-4">Predicted Price</div>
+          <div class="w-1/4 py-2 px-4">Actual Price</div>
+          <div class="w-1/4 py-2 px-4">Accuracy</div>
+        </div>
+        <div v-for="stock in stocks" :key="stock._id" class="flex border-b">
+          <div class="w-1/4 py-2 px-4">{{ stock.name }}</div>
+          <div class="w-1/4 py-2 px-4">${{ stock.predictedPrice }}</div>
+          <div class="w-1/4 py-2 px-4">${{ stock.actualPrice }}</div>
+          <div class="w-1/4 py-2 px-4 text-green-500">{{ stock.accuracy }}%</div>
+        </div>
+      </div>
     </section>
     <section class="rounded-lg shadow-md p-6">
       <h2 class="text-2xl font-semibold mb-4">Stock Performance</h2>
       <div class="relative h-64">
-        <!-- Placeholder for a chart -->
-        <p class="text-center">Chart will be displayed here</p>
+        <canvas ref="performanceChart"></canvas>
       </div>
     </section>
   </div>
@@ -51,24 +46,73 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import { fetchStocks } from '../services/api';
+import { fetchStocks, fetchPredictionStats } from '../services/api';
 import { Stock } from '../types';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 export default defineComponent({
   name: 'DashboardPage',
   setup() {
     const stocks = ref<Stock[]>([]);
     const totalStocks = ref<number>(0);
+    const predictionAccuracy = ref<number>(0);
+    const mostPredictedStock = ref<string>('N/A');
+    const performanceChartRef = ref<HTMLCanvasElement | null>(null);
+
+    const loadChart = () => {
+      if (performanceChartRef.value) {
+        new Chart(performanceChartRef.value, {
+          type: 'line',
+          data: {
+            labels: stocks.value.map(stock => stock.name),
+            datasets: [
+              {
+                label: 'Predicted Price',
+                data: stocks.value.map(stock => stock.predictedPrice || 0),
+                borderColor: '#42A5F5',
+                fill: false
+              },
+              {
+                label: 'Actual Price',
+                data: stocks.value.map(stock => stock.actualPrice || 0),
+                borderColor: '#66BB6A',
+                fill: false
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false
+          }
+        });
+      }
+    };
+
+    const fetchData = async () => {
+      try {
+        const [stockData, stats] = await Promise.all([fetchStocks(), fetchPredictionStats()]);
+        stocks.value = stockData;
+        totalStocks.value = stockData.length;
+        predictionAccuracy.value = stats.accuracy || 0;
+        mostPredictedStock.value = stats.mostPredictedStock || 'N/A';
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
     onMounted(async () => {
-      const data = await fetchStocks();
-      stocks.value = data;
-      totalStocks.value = data.length;
+      await fetchData();
+      loadChart();
     });
 
     return {
       stocks,
       totalStocks,
+      predictionAccuracy,
+      mostPredictedStock,
+      performanceChartRef
     };
   },
 });

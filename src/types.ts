@@ -5,3 +5,8 @@ export interface Stock {
   actualPrice: number;
   accuracy: number;
 }
+
+export interface PredictionStats {
+  accuracy: number;
+  mostPredictedStock: string;
+}
