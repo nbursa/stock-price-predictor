@@ -34,16 +34,19 @@ The Stock Price Predictor is a Real-Time web application that predicts future st
 ### Setting up the Client
 
 1. **Navigate to the `src` directory:**
+
    ```sh
    cd src
    ```
 
 2. **Install client dependencies:**
+
    ```sh
    npm install
    ```
 
 3. **Start the development server for the client:**
+
    ```sh
    npm run dev
    ```
@@ -54,16 +57,19 @@ The Stock Price Predictor is a Real-Time web application that predicts future st
 ### Setting up the Server
 
 1. **Navigate to the `server` directory:**
+
    ```sh
    cd server
    ```
 
 2. **Install server dependencies:**
+
    ```sh
    npm install
    ```
 
 3. **Set up environment variables for the server:**
+
    - Create a `.env` file in the `server` directory.
    - Add your database connection string and other configuration settings.
 
@@ -75,26 +81,31 @@ The Stock Price Predictor is a Real-Time web application that predicts future st
 ### Setting up the Model
 
 1. **Navigate to the `model` directory:**
+
    ```sh
    cd model
    ```
 
 2. **Create a virtual environment:**
+
    ```sh
    python -m venv venv
    ```
 
 3. **Activate the virtual environment:**
+
    ```sh
    source venv/bin/activate
    ```
 
 4. **Install model dependencies:**
+
    ```sh
    pip install -r requirements.txt
    ```
 
 5. **Set up environment variables for the model:**
+
    - Create a `.env` file in the `model` directory.
    - Add your API keys and other configuration settings.
 
@@ -106,6 +117,7 @@ The Stock Price Predictor is a Real-Time web application that predicts future st
 ### Running the Application
 
 1. **Start the client and server:**
+
    - Follow the instructions above to start both the client and server.
 
 2. **Open the application:**

@@ -12,12 +12,12 @@ const EXCHANGE_RATE_API_URL = import.meta.env.VITE_APP_EXCHANGE_RATE_API_URL as 
 const PREDICTION_API_URL = import.meta.env.VITE_APP_PREDICTION_API_URL as string;
 
 export const fetchStocks = async (): Promise<Stock[]> => {
-  const response = await apiClient.get('/api/stocks');  // Ensure the base URL is properly set
+  const response = await apiClient.get('/api/stocks');
   return response.data;
 };
 
 export const addStock = async (data: any): Promise<Stock> => {
-  const response = await apiClient.post('/api/stocks', data);  // Ensure the base URL is properly set
+  const response = await apiClient.post('/api/stocks', data);
   return response.data;
 };
 
@@ -32,6 +32,6 @@ export const getExchangeRates = async (baseCurrency: string) => {
 };
 
 export const fetchPredictionStats = async (): Promise<PredictionStats> => {
-  const response = await apiClient.get('/api/stats');  // Ensure the base URL is properly set
+  const response = await apiClient.get('/api/stats');
   return response.data;
 };

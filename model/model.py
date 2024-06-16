@@ -9,7 +9,7 @@ data = pd.read_csv('historical_stock_data.csv')
 # Preprocess data
 X = data[['Open', 'High', 'Low', 'Close']]  # Use actual column names as features
 y = data['Volume']  # Use the target column name
-
+print(X.head())
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Train the model

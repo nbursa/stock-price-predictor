@@ -13,22 +13,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import { fetchStocks } from '../services/api';
-import { Stock } from '../types';
+import { defineComponent, ref, onMounted } from 'vue'
+import { fetchStocks } from '../services/api'
+import { Stock } from '../types'
 
 export default defineComponent({
   name: 'StockDetailsPage',
   setup() {
-    const stocks = ref<Stock[]>([]);
+    const stocks = ref<Stock[]>([])
 
     onMounted(async () => {
-      stocks.value = await fetchStocks();
-    });
+      stocks.value = await fetchStocks()
+    })
 
     return {
       stocks,
-    };
+    }
   },
-});
+})
 </script>

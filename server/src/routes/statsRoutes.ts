@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import { getPredictionStats } from '../controllers/statsController';
+import { Router } from 'express'
+import { getPredictionStats } from '../controllers/statsController'
 
-const router = Router();
+const router = Router()
 
-router.get('/', getPredictionStats); // Matches /api/stats
+router.get('/', getPredictionStats)
 
-export default router;
+export default router

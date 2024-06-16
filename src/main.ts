@@ -1,8 +1,16 @@
 import './assets/css/tailwind.css'
-import { createApp } from 'vue';
-import App from './App.vue';
-import router from './router';
+import { createApp, h } from 'vue'
+import App from './App.vue'
+import router from './router'
+import { provideTheme, loadTheme } from './themeManager'
 
-createApp(App)
-    .use(router)
-    .mount('#app');
+loadTheme()
+
+const app = createApp({
+  setup() {
+    provideTheme()
+  },
+  render: () => h(App),
+})
+
+app.use(router).mount('#app')

@@ -5,20 +5,20 @@
       <p class="text-lg">Overview of stock predictions and analysis.</p>
     </header>
     <section class="flex flex-col md:flex-row gap-6 mb-6">
-      <div class="card p-6 rounded-lg shadow-md">
+      <div class="p-6 rounded-lg shadow-light-sm dark:shadow-dark-sm">
         <h2 class="text-xl font-semibold mb-2">Total Stocks Analyzed</h2>
         <p class="text-3xl font-bold text-blue-500">{{ totalStocks }}</p>
       </div>
-      <div class="card p-6 rounded-lg shadow-md">
+      <div class="card p-6 rounded-lg shadow-light-md dark:shadow-dark-md">
         <h2 class="text-xl font-semibold mb-2">Prediction Accuracy</h2>
         <p class="text-3xl font-bold text-green-500">{{ predictionAccuracy }}%</p>
       </div>
-      <div class="card p-6 rounded-lg shadow-md">
+      <div class="card p-6 rounded-lg shadow-light-md dark:shadow-dark-md">
         <h2 class="text-xl font-semibold mb-2">Most Predicted Stock</h2>
         <p class="text-3xl font-bold text-red-500">{{ mostPredictedStock }}</p>
       </div>
     </section>
-    <section class="rounded-lg shadow-md p-6 mb-6">
+    <section class="rounded-lg shadow-light-md dark:shadow-dark-md p-6 mb-6">
       <h2 class="text-2xl font-semibold mb-4">Recent Predictions</h2>
       <div class="flex flex-col">
         <div class="flex font-semibold">
@@ -35,7 +35,7 @@
         </div>
       </div>
     </section>
-    <section class="rounded-lg shadow-md p-6">
+    <section class="rounded-lg shadow-light-md dark:shadow-dark-md p-6">
       <h2 class="text-2xl font-semibold mb-4">Stock Performance</h2>
       <div class="relative h-64">
         <canvas ref="performanceChart"></canvas>
@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, watch } from 'vue';
 import { fetchStocks, fetchPredictionStats } from '../services/api';
 import { Stock } from '../types';
 import { Chart, registerables } from 'chart.js';
@@ -62,7 +62,7 @@ export default defineComponent({
     const performanceChartRef = ref<HTMLCanvasElement | null>(null);
 
     const loadChart = () => {
-      if (performanceChartRef.value) {
+      if (performanceChartRef.value && stocks.value.length > 0) {
         new Chart(performanceChartRef.value, {
           type: 'line',
           data: {
@@ -84,7 +84,15 @@ export default defineComponent({
           },
           options: {
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                beginAtZero: true
+              },
+              y: {
+                beginAtZero: true
+              }
+            }
           }
         });
       }
@@ -97,14 +105,20 @@ export default defineComponent({
         totalStocks.value = stockData.length;
         predictionAccuracy.value = stats.accuracy || 0;
         mostPredictedStock.value = stats.mostPredictedStock || 'N/A';
+        console.log('Stocks:', stockData);
+        console.log('Stats:', stats);
+        await loadChart();
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    onMounted(async () => {
-      await fetchData();
-      loadChart();
+    onMounted(fetchData);
+
+    watch([performanceChartRef, stocks], ([newRef, newStocks]) => {
+      if (newRef && newStocks.length > 0) {
+        loadChart();
+      }
     });
 
     return {

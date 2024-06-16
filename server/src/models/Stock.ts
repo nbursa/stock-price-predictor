@@ -5,7 +5,9 @@ const stockSchema = new Schema({
   price: { type: Number, required: true },
   predictedPrice: { type: Number },
   actualPrice: { type: Number },
-  accuracy: { type: Number }
+  accuracy: { type: Number },
 });
 
-export default model('Stock', stockSchema);
+const Stock = model('Stock', stockSchema);
+
+export default Stock;

@@ -2,13 +2,13 @@ import { Schema, model } from 'mongoose';
 
 const predictionSchema = new Schema({
   input: {
-    Open: Number,
-    High: Number,
-    Low: Number,
-    Close: Number,
+    Open: { type: Number, required: true },
+    High: { type: Number, required: true },
+    Low: { type: Number, required: true },
+    Close: { type: Number, required: true },
   },
-  predictedVolume: Number,
-  date: { type: Date, default: Date.now }
+  predictedVolume: { type: Number, required: true },
+  date: { type: Date, default: Date.now },
 });
 
 const Prediction = model('Prediction', predictionSchema);
