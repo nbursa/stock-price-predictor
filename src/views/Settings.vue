@@ -100,7 +100,7 @@ export default defineComponent({
     })
 
     const username = ref(user.value.username)
-    const emailNotifications = ref(user.value.notifications)
+    const emailNotifications = ref(user.value.emailNotifications)
     const apiKey = ref(user.value.apiKey)
 
     const savePreferences = () => {

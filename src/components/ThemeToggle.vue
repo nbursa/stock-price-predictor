@@ -19,7 +19,7 @@ export default defineComponent({
     const theme = useTheme()
 
     const iconClass = computed(() => {
-      return theme.value === 'dark' ? 'fas fa-moon' : 'fas fa-sun'
+      return theme.value === 'dark' ? 'fas fa-sun' : 'fas fa-moon'
     })
 
     return {
