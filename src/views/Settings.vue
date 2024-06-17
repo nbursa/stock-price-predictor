@@ -30,7 +30,7 @@
               <option value="dark">Dark</option>
             </select>
           </div>
-          <button type="submit" class="w-full px-4 py-2">
+          <button type="submit" class="w-full px-4 py-1">
             Save Preferences
           </button>
         </form>
@@ -52,7 +52,7 @@
               >
             </div>
           </div>
-          <button type="submit" class="w-full px-4 py-2">
+          <button type="submit" class="w-full px-4 py-1">
             Save Notifications
           </button>
         </form>
@@ -71,7 +71,7 @@
               class="w-full px-4 py-2 border rounded-lg"
             />
           </div>
-          <button type="submit" class="w-full px-4 py-2">Save API Key</button>
+          <button type="submit" class="w-full px-4 py-1">Save API Key</button>
         </form>
       </section>
     </div>

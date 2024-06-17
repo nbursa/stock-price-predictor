@@ -1,6 +1,6 @@
 <template>
-  <div class="home p-4">
-    <header class="header py-10 text-center max-w-lg mx-auto">
+  <div class="p-4">
+    <header class="header pt-10 text-center max-w-lg mx-auto">
       <div class="font-bold text-4xl mb-4">Welcome to the</div>
       <h1 class="text-6xl font-extrabold">Real-Time Stock Price Predictor</h1>
       <p class="mt-4">
@@ -8,7 +8,13 @@
         real-time updates.
       </p>
     </header>
-    <main class="mt-0">
+    <main class="flex flex-col items-center mt-0 w-full">
+      <button
+        class="px-8 mx-auto w-1/3 min-w-fit"
+        @click="navigateToPredictions"
+      >
+        Start Predicting
+      </button>
       <div class="p-6 max-w-lg mx-auto">
         <h2 class="text-2xl font-semibold text-center">Features</h2>
         <ul class="mt-4 p-0 text-sm text-center">
@@ -25,8 +31,20 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'HomePage',
+  setup() {
+    const router = useRouter()
+
+    const navigateToPredictions = () => {
+      router.push('/predictions')
+    }
+
+    return {
+      navigateToPredictions,
+    }
+  },
 })
 </script>
