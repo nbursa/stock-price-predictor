@@ -3,8 +3,6 @@
     <header class="mb-6">
       <h1 class="text-4xl font-bold mb-2">Settings</h1>
       <p class="text-lg">Configure application settings.</p>
-
-      {{ user }}
     </header>
     <div class="grid grid-cols-1 md:grid-cols-2 max-w-2xl mx-auto gap-6">
       <section class="rounded-lg shadow-dark-sm dark:shadow-light-sm p-6">
@@ -16,7 +14,7 @@
             >
             <input
               id="username"
-              v-model="user.username"
+              v-model="username"
               type="text"
               class="w-full px-4 py-2 border rounded-lg"
             />
@@ -25,7 +23,7 @@
             <label for="theme" class="block font-semibold mb-2">Theme</label>
             <select
               id="theme"
-              v-model="user.selectedTheme"
+              v-model="selectedTheme"
               class="w-full px-4 py-2 border rounded-lg"
             >
               <option value="light">Light</option>
@@ -45,7 +43,7 @@
             <div class="flex items-center">
               <input
                 id="email-notifications"
-                v-model="user.emailNotifications"
+                v-model="emailNotifications"
                 type="checkbox"
                 class="mr-2"
               />
@@ -68,7 +66,7 @@
             >
             <input
               id="api-key"
-              v-model="user.apiKey"
+              v-model="apiKey"
               type="text"
               class="w-full px-4 py-2 border rounded-lg"
             />
@@ -106,48 +104,32 @@ export default defineComponent({
     const emailNotifications = ref(user.value.notifications)
     const apiKey = ref(user.value.apiKey)
 
-    const saveSettings = (newSettings: {
-      username?: string
-      theme?: string
-      notifications?: boolean
-      apiKey?: string
-    }) => {
-      const currentUserSettings = user.value
-      const updatedUserSettings = { ...currentUserSettings, ...newSettings }
-      localStorage.setItem('user', JSON.stringify(updatedUserSettings))
-      if (
-        newSettings.theme &&
-        newSettings.theme !== currentUserSettings.theme
-      ) {
+    const savePreferences = () => {
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
+      const updatedUser = {
+        ...currentUser,
+        username: username.value,
+        theme: selectedTheme.value,
+      }
+      localStorage.setItem('user', JSON.stringify(updatedUser))
+      if (selectedTheme.value !== theme.value) {
         toggleTheme()
       }
     }
 
-    const savePreferences = () => {
-      console.log('Preferences saved:', {
-        username: username.value,
-        theme: selectedTheme.value,
-      })
-      saveSettings({
-        ...user,
-        username: username.value,
-        theme: selectedTheme.value,
-      })
-    }
-
     const saveNotifications = () => {
-      console.log('Notifications saved:', {
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
+      const updatedUser = {
+        ...currentUser,
         emailNotifications: emailNotifications.value,
-      })
-      saveSettings({
-        ...user,
-        notifications: emailNotifications.value,
-      })
+      }
+      localStorage.setItem('user', JSON.stringify(updatedUser))
     }
 
     const saveApiKey = () => {
-      console.log('API key saved:', { apiKey: apiKey.value })
-      saveSettings({ ...user, apiKey: apiKey.value })
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
+      const updatedUser = { ...currentUser, apiKey: apiKey.value }
+      localStorage.setItem('user', JSON.stringify(updatedUser))
     }
 
     return {
