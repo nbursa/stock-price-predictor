@@ -11,14 +11,12 @@
     <main class="mt-0">
       <div class="p-6 max-w-lg mx-auto">
         <h2 class="text-2xl font-semibold text-center">Features</h2>
-        <ul class="mt-4 p-0 space-y-2 text-center">
-          <li class="">Fetch historical stock price data</li>
-          <li class="">Clean and preprocess data</li>
-          <li class="">
-            Implement and evaluate multiple machine learning models
-          </li>
-          <li class="">Real-time stock price updates</li>
-          <li class="">Interactive visualizations</li>
+        <ul class="mt-4 p-0 text-sm text-center">
+          <li>Fetch historical stock price data</li>
+          <li>Clean and preprocess data</li>
+          <li>Implement and evaluate multiple machine learning models</li>
+          <li>Real-time stock price updates</li>
+          <li>Interactive visualizations</li>
         </ul>
       </div>
     </main>

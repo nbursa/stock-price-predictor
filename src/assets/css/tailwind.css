@@ -6,6 +6,7 @@
 :root {
   --color-primary: #35a7ff;
   --color-secondary: #3e6792;
+  --color-secondary-light: #6e8196;
   --color-secondary-accent: #6a82a4;
   --color-tertiary: #6792FF;
   --color-background: #0d1117;
@@ -157,17 +158,23 @@ pre {
   overflow-x: auto;
 }
 
+aside.mobile-nav {
+  background-color: var(--color-background);
+  color: var(--color-secondary-light);
+}
+
 .dark {
   html, body {
     background-color: var(--color-background);
-    color: var(--color-secondary);
+    color: var(--color-secondary-light);
+
   }
 
   a {
-    color: var(--color-secondary);
+    color: var(--color-secondary-light);
   }
   a:hover {
-    color: var(--color-primary);
+    color: var(--color-text);
   }
 
   input,
@@ -209,5 +216,10 @@ pre {
   pre {
     background-color: var(--color-background);
     color: var(--color-text);
+  }
+
+  aside.mobile-nav {
+    background-color: var(--color-background);
+    color: var(--color-secondary-light);
   }
 }

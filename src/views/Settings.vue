@@ -3,6 +3,8 @@
     <header class="mb-6">
       <h1 class="text-4xl font-bold mb-2">Settings</h1>
       <p class="text-lg">Configure application settings.</p>
+
+      {{ user }}
     </header>
     <div class="grid grid-cols-1 md:grid-cols-2 max-w-2xl mx-auto gap-6">
       <section class="rounded-lg shadow-dark-sm dark:shadow-light-sm p-6">
@@ -14,7 +16,7 @@
             >
             <input
               id="username"
-              v-model="username"
+              v-model="user.username"
               type="text"
               class="w-full px-4 py-2 border rounded-lg"
             />
@@ -23,7 +25,7 @@
             <label for="theme" class="block font-semibold mb-2">Theme</label>
             <select
               id="theme"
-              v-model="selectedTheme"
+              v-model="user.selectedTheme"
               class="w-full px-4 py-2 border rounded-lg"
             >
               <option value="light">Light</option>
@@ -43,11 +45,11 @@
             <div class="flex items-center">
               <input
                 id="email-notifications"
-                v-model="emailNotifications"
+                v-model="user.emailNotifications"
                 type="checkbox"
                 class="mr-2"
               />
-              <label for="email-notifications" class=""
+              <label for="email-notifications"
                 >Enable email notifications</label
               >
             </div>
@@ -66,7 +68,7 @@
             >
             <input
               id="api-key"
-              v-model="apiKey"
+              v-model="user.apiKey"
               type="text"
               class="w-full px-4 py-2 border rounded-lg"
             />
@@ -79,36 +81,73 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { toggleTheme, useTheme } from '../services/themeManager.ts'
+import { computed, defineComponent, ref } from 'vue'
+import { useTheme, toggleTheme } from '../services/themeManager'
 
 export default defineComponent({
   name: 'SettingsPage',
   setup() {
-    const username = ref('')
     const theme = useTheme()
     const selectedTheme = ref(theme.value)
-    const emailNotifications = ref(false)
-    const apiKey = ref('')
+
+    const user = computed(() => {
+      return JSON.parse(
+        localStorage.getItem('user') ||
+          JSON.stringify({
+            username: '',
+            theme: theme.value,
+            notifications: false,
+            apiKey: '',
+          }),
+      )
+    })
+
+    const username = ref(user.value.username)
+    const emailNotifications = ref(user.value.notifications)
+    const apiKey = ref(user.value.apiKey)
+
+    const saveSettings = (newSettings: {
+      username?: string
+      theme?: string
+      notifications?: boolean
+      apiKey?: string
+    }) => {
+      const currentUserSettings = user.value
+      const updatedUserSettings = { ...currentUserSettings, ...newSettings }
+      localStorage.setItem('user', JSON.stringify(updatedUserSettings))
+      if (
+        newSettings.theme &&
+        newSettings.theme !== currentUserSettings.theme
+      ) {
+        toggleTheme()
+      }
+    }
 
     const savePreferences = () => {
       console.log('Preferences saved:', {
         username: username.value,
         theme: selectedTheme.value,
       })
-      if (theme.value !== selectedTheme.value) {
-        toggleTheme()
-      }
+      saveSettings({
+        ...user,
+        username: username.value,
+        theme: selectedTheme.value,
+      })
     }
 
     const saveNotifications = () => {
       console.log('Notifications saved:', {
         emailNotifications: emailNotifications.value,
       })
+      saveSettings({
+        ...user,
+        notifications: emailNotifications.value,
+      })
     }
 
     const saveApiKey = () => {
       console.log('API key saved:', { apiKey: apiKey.value })
+      saveSettings({ ...user, apiKey: apiKey.value })
     }
 
     return {
@@ -119,6 +158,7 @@ export default defineComponent({
       savePreferences,
       saveNotifications,
       saveApiKey,
+      user,
     }
   },
 })

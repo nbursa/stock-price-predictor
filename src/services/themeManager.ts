@@ -1,6 +1,16 @@
 import { ref, provide, inject, Ref } from 'vue'
 
-const theme = ref(localStorage.getItem('theme') || 'light')
+const getUserFromLocalStorage = () => {
+  const user = localStorage.getItem('user')
+  return user ? JSON.parse(user) : { theme: 'light' }
+}
+
+const saveUserToLocalStorage = (user: { theme: string }) => {
+  localStorage.setItem('user', JSON.stringify(user))
+}
+
+const user = getUserFromLocalStorage()
+const theme = ref(user.theme)
 
 export const provideTheme = () => {
   provide('theme', theme)
@@ -14,14 +24,16 @@ export const useTheme = () => {
 
 export const toggleTheme = () => {
   theme.value = theme.value === 'dark' ? 'light' : 'dark'
-  localStorage.setItem('theme', theme.value)
+  const user = getUserFromLocalStorage()
+  user.theme = theme.value
+  saveUserToLocalStorage(user)
   document.documentElement.className = theme.value
 }
 
 export const loadTheme = () => {
-  const savedTheme = localStorage.getItem('theme')
-  if (savedTheme) {
-    document.documentElement.className = savedTheme
-    theme.value = savedTheme
+  const savedUser = getUserFromLocalStorage()
+  if (savedUser) {
+    document.documentElement.className = savedUser.theme
+    theme.value = savedUser.theme
   }
 }

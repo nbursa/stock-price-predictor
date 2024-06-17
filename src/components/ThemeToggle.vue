@@ -2,7 +2,7 @@
   <div>
     <button
       @click="toggleTheme"
-      class="w-8 h-8 flex items-center justify-center"
+      class="h-10 w-10 md:w-8 md:h-8 flex items-center justify-center"
     >
       <i :class="iconClass"></i>
     </button>
