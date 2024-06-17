@@ -2,6 +2,10 @@ export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      colors: {
+        'custom-blue': '#3e6792',
+        'custom-blue-light': '#6e8196',
+      },
       boxShadow: {
         sm: '0 1px 3px rgba(255, 255, 255, 0.1)',
         md: '0 4px 6px rgba(255, 255, 255, 0.25)',
