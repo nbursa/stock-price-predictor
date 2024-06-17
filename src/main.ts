@@ -1,8 +1,9 @@
 import './assets/css/tailwind.css'
+import '@fortawesome/fontawesome-free/css/all.css'
 import { createApp, h } from 'vue'
 import App from './App.vue'
 import router from './router'
-import { provideTheme, loadTheme } from './themeManager'
+import { provideTheme, loadTheme } from './services/themeManager.ts'
 
 loadTheme()
 

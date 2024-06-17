@@ -5,7 +5,7 @@
       <p class="text-lg">Configure application settings.</p>
     </header>
     <div class="grid grid-cols-1 md:grid-cols-2 max-w-2xl mx-auto gap-6">
-      <section class="rounded-lg shadow-md p-6 border border-white">
+      <section class="rounded-lg shadow-dark-sm dark:shadow-light-sm p-6">
         <h2 class="text-2xl font-semibold mb-4">User Preferences</h2>
         <form @submit.prevent="savePreferences">
           <div class="mb-4">
@@ -23,22 +23,19 @@
             <label for="theme" class="block font-semibold mb-2">Theme</label>
             <select
               id="theme"
-              v-model="theme"
+              v-model="selectedTheme"
               class="w-full px-4 py-2 border rounded-lg"
             >
               <option value="light">Light</option>
               <option value="dark">Dark</option>
             </select>
           </div>
-          <button
-            type="submit"
-            class="w-full px-4 py-2 rounded-lg bg-blue-500 text-white"
-          >
+          <button type="submit" class="w-full px-4 py-2">
             Save Preferences
           </button>
         </form>
       </section>
-      <section class="rounded-lg shadow-md p-6 border border-white h-fit">
+      <section class="rounded-lg p-6 shadow-dark-sm dark:shadow-light-sm h-fit">
         <h2 class="text-2xl font-semibold mb-4">Notification Settings</h2>
         <form @submit.prevent="saveNotifications">
           <div class="mb-4">
@@ -55,15 +52,12 @@
               >
             </div>
           </div>
-          <button
-            type="submit"
-            class="w-full px-4 py-2 rounded-lg bg-blue-500 text-white"
-          >
+          <button type="submit" class="w-full px-4 py-2">
             Save Notifications
           </button>
         </form>
       </section>
-      <section class="rounded-lg shadow-md p-6 border border-white">
+      <section class="rounded-lg p-6 shadow-dark-sm dark:shadow-light-sm">
         <h2 class="text-2xl font-semibold mb-4">API Key Management</h2>
         <form @submit.prevent="saveApiKey">
           <div class="mb-4">
@@ -77,12 +71,7 @@
               class="w-full px-4 py-2 border rounded-lg"
             />
           </div>
-          <button
-            type="submit"
-            class="w-full px-4 py-2 rounded-lg bg-blue-500 text-white"
-          >
-            Save API Key
-          </button>
+          <button type="submit" class="w-full px-4 py-2">Save API Key</button>
         </form>
       </section>
     </div>
@@ -90,45 +79,41 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
-import { toggleTheme, useTheme } from '../themeManager'
+import { defineComponent, ref } from 'vue'
+import { toggleTheme, useTheme } from '../services/themeManager.ts'
 
 export default defineComponent({
   name: 'SettingsPage',
   setup() {
     const username = ref('')
-    const theme = useTheme() // Use the global theme state
+    const theme = useTheme()
+    const selectedTheme = ref(theme.value)
     const emailNotifications = ref(false)
     const apiKey = ref('')
-
-    watch(theme, (newTheme) => {
-      document.documentElement.className = newTheme
-      localStorage.setItem('theme', newTheme)
-    })
 
     const savePreferences = () => {
       console.log('Preferences saved:', {
         username: username.value,
-        theme: theme.value,
+        theme: selectedTheme.value,
       })
-      toggleTheme()
+      if (theme.value !== selectedTheme.value) {
+        toggleTheme()
+      }
     }
 
     const saveNotifications = () => {
       console.log('Notifications saved:', {
         emailNotifications: emailNotifications.value,
       })
-      // Add logic to save notification settings
     }
 
     const saveApiKey = () => {
       console.log('API key saved:', { apiKey: apiKey.value })
-      // Add logic to save API key
     }
 
     return {
       username,
-      theme,
+      selectedTheme,
       emailNotifications,
       apiKey,
       savePreferences,

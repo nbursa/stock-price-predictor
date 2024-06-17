@@ -1,73 +1,103 @@
 <template>
   <div class="p-6 min-h-screen">
     <h1 class="text-3xl font-bold mb-6">Stock Predictions</h1>
-    <form @submit.prevent="predictStock" class="mb-1 max-w-xl mx-auto">
+    <!-- Train Model Form -->
+    <form @submit.prevent="trainStock" class="mb-1 max-w-xl mx-auto">
       <div class="grid grid-cols-2 gap-4 mb-8">
+        <!-- Stock Selection -->
         <div>
-          <label for="stock" class="block text-xs font-medium">Stock</label>
+          <label for="train-stock" class="block text-xs font-medium"
+            >Stock</label
+          >
           <select
-            id="stock"
-            v-model="inputData.Stock"
+            id="train-stock"
+            v-model="trainData.Stock"
             class="mt-1 w-full px-2 py-1 border rounded-lg"
           >
-            <option v-for="stock in stocks" :key="stock" :value="stock">{{ stock }}</option>
+            <option v-for="stock in stocks" :key="stock" :value="stock">
+              {{ stock }}
+            </option>
           </select>
         </div>
-        <div>
-          <label for="open" class="block text-xs font-medium">Open</label>
+        <!-- Feature Inputs -->
+        <div v-for="i in 4" :key="'train-feature' + i">
+          <label :for="'train-feature' + i" class="block text-xs font-medium"
+            >Feature {{ i }}</label
+          >
           <input
-            id="open"
+            :id="'train-feature' + i"
             type="number"
-            v-model.number="inputData.Open"
-            placeholder="Enter opening price"
+            v-model.number="trainData['feature' + i]"
+            :placeholder="'Enter feature ' + i"
             class="mt-1 w-full px-2 py-1 border rounded-lg"
           />
         </div>
+        <!-- Target Input -->
         <div>
-          <label for="high" class="block text-xs font-medium">High</label>
+          <label for="train-target" class="block text-xs font-medium"
+            >Target</label
+          >
           <input
-            id="high"
+            id="train-target"
             type="number"
-            v-model.number="inputData.High"
-            placeholder="Enter highest price"
-            class="mt-1 w-full px-2 py-1 border rounded-lg"
-          />
-        </div>
-        <div>
-          <label for="low" class="block text-xs font-medium">Low</label>
-          <input
-            id="low"
-            type="number"
-            v-model.number="inputData.Low"
-            placeholder="Enter lowest price"
-            class="mt-1 w-full px-2 py-1 border rounded-lg"
-          />
-        </div>
-        <div>
-          <label for="close" class="block text-xs font-medium">Close</label>
-          <input
-            id="close"
-            type="number"
-            v-model.number="inputData.Close"
-            placeholder="Enter closing price"
+            v-model.number="trainData.target"
+            placeholder="Enter target value"
             class="mt-1 w-full px-2 py-1 border rounded-lg"
           />
         </div>
       </div>
+      <!-- Submit Button -->
       <div class="md:col-span-2">
-        <button
-          type="submit"
-          class="w-full px-4 py-2 rounded-lg bg-blue-500 text-white"
-        >
+        <button type="submit" class="w-full px-4 py-1 mb-8" :disabled="loading">
+          Train Model
+        </button>
+      </div>
+    </form>
+    <!-- Predict Stock Form -->
+    <form @submit.prevent="predictStock" class="mb-1 max-w-xl mx-auto">
+      <div class="grid grid-cols-2 gap-4 mb-8">
+        <!-- Stock Selection -->
+        <div>
+          <label for="predict-stock" class="block text-xs font-medium"
+            >Stock</label
+          >
+          <select
+            id="predict-stock"
+            v-model="predictData.Stock"
+            class="mt-1 w-full px-2 py-1 border rounded-lg"
+          >
+            <option v-for="stock in stocks" :key="stock" :value="stock">
+              {{ stock }}
+            </option>
+          </select>
+        </div>
+        <!-- Feature Inputs -->
+        <div v-for="i in 4" :key="'predict-feature' + i">
+          <label :for="'predict-feature' + i" class="block text-xs font-medium"
+            >Feature {{ i }}</label
+          >
+          <input
+            :id="'predict-feature' + i"
+            type="number"
+            v-model.number="predictData['feature' + i]"
+            :placeholder="'Enter feature ' + i"
+            class="mt-1 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+      </div>
+      <!-- Submit Button -->
+      <div class="md:col-span-2">
+        <button type="submit" class="w-full px-4 py-1 mb-8" :disabled="loading">
           Predict
         </button>
       </div>
     </form>
-
-    <div v-if="loading" class="text-blue-500 mb-4">Fetching predictions...</div>
-
+    <!-- Status and Loading Messages -->
+    <div v-if="loading" class="text-blue-500 mb-4 text-center">
+      Processing...
+    </div>
     <div v-if="status" class="text-blue-500 text-center">{{ status }}</div>
-
+    <!-- Predictions -->
     <div v-if="predictions.length" class="text-center">
       <h2 class="text-xl font-thin mt-4 mb-0">Predicted Volume</h2>
       <ul class="m-0 p-0">
@@ -76,13 +106,15 @@
           :key="index"
           class="p-4 shadow rounded-lg"
         >
-          <span class="text-2xl font-bold">{{ prediction.toFixed(2) }}</span>
+          <span class="text-2xl font-bold shadow-sm dark:shadow-dark-lg">{{
+            prediction?.toFixed(2)
+          }}</span>
         </li>
       </ul>
     </div>
-
-    <div v-if="error" class="text-red-500">{{ error }}</div>
-
+    <!-- Error Message -->
+    <div v-if="error" class="text-red-500 text-center">{{ error }}</div>
+    <!-- Charts -->
     <div
       v-if="showCharts"
       class="mt-4 flex flex-col sm:flex-row sm:justify-center gap-4 mx-auto"
@@ -102,7 +134,7 @@
         ></bar-chart>
       </div>
     </div>
-
+    <!-- Past Predictions -->
     <div
       v-if="pastPredictions.length"
       class="flex flex-col items-center justify-between"
@@ -114,28 +146,28 @@
         <li
           v-for="(pastPrediction, index) in pastPredictions"
           :key="index"
-          class="flex items-center justify-center gap-2 pr-4 shadow-sm rounded-lg"
+          class="flex items-center justify-center gap-2 pr-4 shadow-sm dark:shadow-dark-sm rounded-lg"
         >
           <div class="text-xs pl-2 flex items-center justify-between mr-4">
             <span
               class="rounded-full bg-white text-gray-800 inline-flex w-5 h-5 items-center justify-center"
-            >{{ index + 1 }}</span
+              >{{ index + 1 }}</span
             >
             <span
-            >Date: {{ new Date(pastPrediction.date).toLocaleString() }}</span
+              >Date: {{ new Date(pastPrediction.date).toLocaleString() }}</span
             >
           </div>
           <div class="flex items-center justify-start text-sm pl-2">
-            <div class="mr-2">Open: {{ pastPrediction.Open }}</div>
-            <div class="mr-2">High: {{ pastPrediction.High }}</div>
-            <div class="mr-2">Low: {{ pastPrediction.Low }}</div>
-            <div>Close: {{ pastPrediction.Close }}</div>
+            <div class="mr-2">Feature 1: {{ pastPrediction.feature1 }}</div>
+            <div class="mr-2">Feature 2: {{ pastPrediction.feature2 }}</div>
+            <div class="mr-2">Feature 3: {{ pastPrediction.feature3 }}</div>
+            <div>Feature 4: {{ pastPrediction.feature4 }}</div>
           </div>
           <div class="text-xs text-end">
             Predicted Volume:
             <span class="text-lg">{{
-                pastPrediction.Prediction.toFixed(2)
-              }}</span>
+              pastPrediction?.Prediction?.toFixed(2)
+            }}</span>
           </div>
         </li>
       </ul>
@@ -144,8 +176,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, watch, onMounted } from 'vue'
-import { getPredictions, fetchStocks } from '../services/api'
+import { defineComponent, reactive, ref, onMounted, watch } from 'vue'
+import { getPredictions, trainModel, fetchStocks } from '../services/api'
+import { PastPrediction, PredictData, TrainData } from '../types.ts'
 import { Line, Bar } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -177,50 +210,56 @@ export default defineComponent({
     BarChart: Bar,
   },
   setup() {
-    const inputData = reactive<{ Stock: string; Open: number; High: number; Low: number; Close: number }>({
+    const trainData = reactive<TrainData>({
       Stock: '',
-      Open: 0,
-      High: 0,
-      Low: 0,
-      Close: 0,
+      feature1: 0,
+      feature2: 0,
+      feature3: 0,
+      feature4: 0,
+      target: 0,
     })
+
+    const predictData = reactive<PredictData>({
+      Stock: '',
+      feature1: 0,
+      feature2: 0,
+      feature3: 0,
+      feature4: 0,
+    })
+
     const predictions = ref<number[]>([])
-    const pastPredictions = ref<any[]>([])
+    const pastPredictions = ref<PastPrediction[]>([])
     const error = ref<string | null>(null)
-    const loading = ref<boolean>(false)
+    const loading = ref(false)
     const status = ref<string | null>(null)
-    const showCharts = ref<boolean>(false)
+    const showCharts = ref(false)
     const stocks = ref<string[]>([])
 
     const lineChartData = ref({
       labels: [] as string[],
       datasets: [
         {
-          label: 'Open',
-          backgroundColor: '#42A5F5',
+          label: 'Feature 1',
+          data: [] as number[],
           borderColor: '#42A5F5',
-          data: [] as number[],
-          fill: false,
+          fill: true,
         },
         {
-          label: 'High',
-          backgroundColor: '#66BB6A',
+          label: 'Feature 2',
+          data: [] as number[],
           borderColor: '#66BB6A',
-          data: [] as number[],
           fill: false,
         },
         {
-          label: 'Low',
-          backgroundColor: '#FFA726',
+          label: 'Feature 3',
+          data: [] as number[],
           borderColor: '#FFA726',
-          data: [] as number[],
           fill: false,
         },
         {
-          label: 'Close',
-          backgroundColor: '#FF7043',
-          borderColor: '#FF7043',
+          label: 'Feature 4',
           data: [] as number[],
+          borderColor: '#FF7043',
           fill: false,
         },
       ],
@@ -229,11 +268,7 @@ export default defineComponent({
     const barChartData = ref({
       labels: [] as string[],
       datasets: [
-        {
-          label: 'Volume',
-          backgroundColor: '#42A5F5',
-          data: [] as number[],
-        },
+        { label: 'Volume', backgroundColor: '#42A5F5', data: [] as number[] },
       ],
     })
 
@@ -253,6 +288,7 @@ export default defineComponent({
     const fetchStocksList = async () => {
       try {
         const response = await fetchStocks()
+        console.log('Stocks:', response) // Debug stocks
         stocks.value = response.map((stock: any) => stock.name)
       } catch (error) {
         console.error('Error fetching stocks:', error)
@@ -260,8 +296,8 @@ export default defineComponent({
     }
 
     const savePrediction = (prediction: number) => {
-      const newPrediction = {
-        ...inputData,
+      const newPrediction: PastPrediction = {
+        ...predictData,
         Prediction: prediction,
         date: new Date().toISOString(),
       }
@@ -274,29 +310,47 @@ export default defineComponent({
     }
 
     const updateCharts = () => {
-      const labels = pastPredictions.value.map((p: any) =>
+      const labels = pastPredictions.value.map((p) =>
         new Date(p.date).toLocaleString(),
       )
       lineChartData.value.labels = labels
-      barChartData.value.labels = labels
-
       lineChartData.value.datasets[0].data = pastPredictions.value.map(
-        (p: any) => p.Open,
+        (p) => p.feature1,
       )
       lineChartData.value.datasets[1].data = pastPredictions.value.map(
-        (p: any) => p.High,
+        (p) => p.feature2,
       )
       lineChartData.value.datasets[2].data = pastPredictions.value.map(
-        (p: any) => p.Low,
+        (p) => p.feature3,
       )
       lineChartData.value.datasets[3].data = pastPredictions.value.map(
-        (p: any) => p.Close,
+        (p) => p.feature4,
       )
+      barChartData.value.labels = labels
       barChartData.value.datasets[0].data = pastPredictions.value.map(
-        (p: any) => p.Prediction,
+        (p) => p.Prediction,
       )
 
+      console.log('lineChartData:', lineChartData.value) // Debug lineChartData
+      console.log('barChartData:', barChartData.value) // Debug barChartData
       showCharts.value = true
+    }
+
+    const trainStock = async () => {
+      try {
+        loading.value = true
+        error.value = null
+        status.value = 'Training model...'
+        const data = { data: [trainData] }
+        await trainModel(data)
+        status.value = 'Model trained successfully!'
+        setTimeout(() => (status.value = null), 7000)
+      } catch (err: any) {
+        error.value = 'Failed to train model'
+        console.error('Error training model:', err.response?.data || err)
+      } finally {
+        loading.value = false
+      }
     }
 
     const predictStock = async () => {
@@ -304,23 +358,14 @@ export default defineComponent({
         loading.value = true
         error.value = null
         status.value = 'Fetching predictions...'
-
-        const data = {
-          Open: inputData.Open || 0,
-          High: inputData.High || 0,
-          Low: inputData.Low || 0,
-          Close: inputData.Close || 0,
-        }
-
-        const response = await getPredictions([data])
+        const response = await getPredictions(predictData)
         predictions.value = response
         savePrediction(response[0])
         status.value = 'Predictions fetched successfully!'
         setTimeout(() => (status.value = null), 7000)
-      } catch (err) {
+      } catch (err: any) {
         error.value = 'Failed to fetch predictions'
-        status.value = null
-        console.error('Error fetching predictions:', err)
+        console.error('Error fetching predictions:', err.response?.data || err)
       } finally {
         loading.value = false
       }
@@ -334,10 +379,12 @@ export default defineComponent({
     })
 
     return {
-      inputData,
+      trainData,
+      predictData,
+      trainStock,
+      predictStock,
       predictions,
       pastPredictions,
-      predictStock,
       error,
       loading,
       status,

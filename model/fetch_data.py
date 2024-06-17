@@ -18,7 +18,7 @@ parser.add_argument('symbol', type=str, help='Stock symbol to fetch data for')
 args = parser.parse_args()
 
 STOCK_SYMBOL = args.symbol
-CSV_FILE = f'historical_stock_data_{STOCK_SYMBOL}.csv'
+CSV_FILE = 'historical_stock_data.csv'
 
 # Fetch daily stock data
 url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={STOCK_SYMBOL}&outputsize=full&apikey={API_KEY}'
@@ -33,10 +33,26 @@ if 'Time Series (Daily)' in data:
     df.index.name = 'Date'
     df = df.reset_index()
     df['Date'] = pd.to_datetime(df['Date'])
+    df['Symbol'] = STOCK_SYMBOL  # Add a column for the stock symbol
     df = df.sort_values('Date')
 
+    # Check if the CSV file already exists
+    if os.path.exists(CSV_FILE):
+        # Read the existing data
+        existing_df = pd.read_csv(CSV_FILE)
+
+        # Check if the 'Symbol' column exists in the existing data
+        if 'Symbol' in existing_df.columns:
+            # Remove old data for the same symbol
+            existing_df = existing_df[existing_df['Symbol'] != STOCK_SYMBOL]
+
+        # Append the new data
+        combined_df = pd.concat([existing_df, df], ignore_index=True)
+    else:
+        combined_df = df
+
     # Save to CSV
-    df.to_csv(CSV_FILE, index=False)
+    combined_df.to_csv(CSV_FILE, index=False)
     print(f"Data saved to {CSV_FILE}")
 else:
     print("Error fetching data")

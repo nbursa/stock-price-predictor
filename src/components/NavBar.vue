@@ -1,66 +1,54 @@
 <template>
   <div>
-    <nav
-      :class="[
-        'shadow py-2 px-4 flex items-center justify-between',
-        theme === 'dark' ? 'text-white' : 'text-black',
-      ]"
-    >
-      <button
-        @click="toggleSidebar"
-        class="md:hidden flex items-center justify-center h-12 w-12 rounded-full focus:outline-none focus:bg-gray-600"
-      >
-        <svg
-          class="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
+    <nav class="shadow py-2 px-4 flex items-center justify-between">
+      <div class="flex items-center">
+        <button
+          @click="toggleSidebar"
+          class="md:hidden flex items-center justify-center rounded-full mr-4 h-12 w-12 text-white"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16m-7 6h7"
-          ></path>
-        </svg>
-      </button>
-      <router-link
-        to="/"
-        class="text-xl font-bold"
-        :class="theme === 'dark' ? 'text-white' : 'text-black'"
-        >Stock Prediction</router-link
-      >
-      <ul class="hidden md:flex items-center gap-4 m-0">
-        <li>
-          <router-link
-            :class="theme === 'dark' ? 'text-white' : 'text-black'"
-            to="/"
-            >Home</router-link
+          <!--          <i class="fa bars w-10 h-10 text-white"></i>-->
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
           >
-        </li>
-        <li>
-          <router-link
-            :class="theme === 'dark' ? 'text-white' : 'text-black'"
-            to="/predictions"
-            >Predictions</router-link
-          >
-        </li>
-        <li>
-          <router-link
-            :class="theme === 'dark' ? 'text-white' : 'text-black'"
-            to="/dashboard"
-            >Dashboard</router-link
-          >
-        </li>
-        <li>
-          <router-link
-            :class="theme === 'dark' ? 'text-white' : 'text-black'"
-            to="/settings"
-            >Settings</router-link
-          >
-        </li>
-      </ul>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            ></path>
+          </svg>
+        </button>
+        <!--        <button-->
+        <!--          @click="toggleTheme"-->
+        <!--          class="w-8 h-8 flex items-center justify-center"-->
+        <!--        >-->
+        <!--          <i :class="iconClass"></i>-->
+        <!--        </button>-->
+        <router-link to="/" class="text-xl font-bold"
+          >Stock Prediction</router-link
+        >
+      </div>
+      <div class="hidden md:flex items-center gap-4">
+        <ul class="flex items-center gap-4 m-0">
+          <li>
+            <router-link to="/">Home</router-link>
+          </li>
+          <li>
+            <router-link to="/predictions">Predictions</router-link>
+          </li>
+          <li>
+            <router-link to="/dashboard">Dashboard</router-link>
+          </li>
+          <li>
+            <router-link to="/settings">Settings</router-link>
+          </li>
+        </ul>
+        <ThemeToggle />
+      </div>
     </nav>
     <transition
       enter-active-class="transition ease-in-out duration-300 transform"
@@ -76,8 +64,9 @@
           @click="toggleSidebar"
         ></div>
         <div
-          class="relative flex-1 flex flex-col max-w-sm pt-12 w-full bg-[#0D1117] shadow-xl"
+          class="relative flex-1 flex flex-col max-w-sm pt-12 w-full bg-[#0D1117] shadow-sm"
         >
+          <ThemeToggle class="absolute top-3 left-2 p-1" />
           <div class="absolute top-1 right-1 p-1">
             <button
               @click="toggleSidebar"
@@ -133,26 +122,28 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
-import { useTheme } from '../themeManager' // Import the theme manager
+import { defineComponent, ref } from 'vue'
+import ThemeToggle from '@/components/ThemeToggle.vue'
+// import { useTheme } from '../services/themeManager.ts' // Import the theme manager
 
 export default defineComponent({
   name: 'NavBar',
+  components: { ThemeToggle },
   setup() {
     const sidebarOpen = ref(false)
-    const theme = useTheme() // Use the global theme state
+    // const theme = useTheme() // Use the global theme state
 
     const toggleSidebar = () => {
       sidebarOpen.value = !sidebarOpen.value
     }
 
-    onMounted(() => {
-      document.documentElement.className = theme.value // Apply the theme class to the document element on mount
-    })
+    // onMounted(() => {
+    //   document.documentElement.className = theme.value // Apply the theme class to the document element on mount
+    // })
 
     return {
       sidebarOpen,
-      theme,
+      // theme,
       toggleSidebar,
     }
   },

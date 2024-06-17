@@ -5,9 +5,12 @@
 
 :root {
   --color-primary: #35a7ff;
-  --color-secondary: #38618c;
+  --color-secondary: #3e6792;
+  --color-secondary-accent: #6a82a4;
+  --color-tertiary: #6792FF;
   --color-background: #0d1117;
   --color-text: #f9f9f9;
+  --color-text-dark: #224057;
   --color-accent: #ff5964;
   --color-highlight: #ffe74c;
   --color-shadow: rgba(0, 0, 0, 0.5);
@@ -42,20 +45,21 @@
 html,
 body {
   height: 100%;
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans), sans-serif;
   font-size: var(--font-size-base);
   line-height: var(--line-height-base);
-  background-color: var(--color-background);
-  color: var(--color-text);
+  color: var(--color-text-dark);
+}
+
+#app {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
 a {
-  color: var(--color-secondary);
   text-decoration: none;
   transition: color 0.2s;
-}
-a:hover {
-  color: var(--color-primary);
 }
 
 h1,
@@ -89,6 +93,10 @@ p {
   margin-bottom: var(--spacing-sm);
 }
 
+button i {
+  margin: 0 !important;
+}
+
 input,
 select,
 textarea {
@@ -96,9 +104,6 @@ textarea {
   font-size: var(--font-size-base);
   font-weight: 500;
   line-height: var(--line-height-base);
-  color: var(--color-text);
-  background-color: var(--color-background);
-  border: 1px solid var(--color-secondary);
   border-radius: 0.5em;
   padding: var(--spacing-xs) var(--spacing-sm);
   transition: border-color 0.2s;
@@ -116,86 +121,91 @@ button {
   font-size: var(--font-size-base);
   font-weight: 500;
   line-height: var(--line-height-base);
-  color: var(--color-text);
+  border-radius: 2rem;
   background-color: var(--color-secondary);
-  border-radius: 0.5em;
+  color: var(--color-text);
   padding: var(--spacing-xs) var(--spacing-sm);
   cursor: pointer;
   transition:
-    background-color 0.2s,
-    color 0.2s;
+          background-color 0.2s,
+          color 0.2s;
 }
 button:hover {
-  color: var(--color-text);
-  background-color: var(--color-primary);
+    background-color: var(--color-secondary-accent);
 }
 button:focus,
 button:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 0.2em rgba(100, 108, 255, 0.5);
+  box-shadow: none;
 }
 
 .card {
-  border-radius: 1em;
-  padding: var(--spacing-lg);
-  box-shadow: 0 0 1em var(--color-shadow);
-  color: var(--color-text);
-  background-color: var(--color-background);
+  /*border-radius: 1em;*/
+  /*padding: var(--spacing-lg);*/
+  @apply shadow-sm;
 }
 
 code {
-  font-family: var(--font-family-mono);
-  background-color: var(--color-background);
+  font-family: var(--font-family-mono), serif;
   padding: var(--spacing-xs);
   border-radius: 0.25em;
-  color: var(--color-text);
 }
 
 pre {
-  background-color: var(--color-background);
   padding: var(--spacing-md);
   border-radius: 0.5em;
   overflow-x: auto;
-  color: var(--color-text);
 }
 
-#app {
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    --color-background: #f9f9f9;
-    --color-text: #0d1117;
-    --color-primary: #0d1117;
-  }
-  body {
+.dark {
+  html, body {
     background-color: var(--color-background);
-    color: var(--color-text);
+    color: var(--color-secondary);
   }
+
+  a {
+    color: var(--color-secondary);
+  }
+  a:hover {
+    color: var(--color-primary);
+  }
+
   input,
   select,
   textarea {
     color: var(--color-text);
     background-color: var(--color-background);
+    border: 1px solid var(--color-secondary);
   }
-  a:hover {
-    color: var(--color-text);
-  }
-  a:active,
-  a:focus {
-    color: var(--color-text);
-  }
+
   button {
     color: var(--color-text);
-    background-color: var(--color-primary);
+    background-color: var(--color-secondary);
   }
+  button:hover {
+    /*color: var(--color-text);*/
+    background-color: var(--color-secondary-accent);
+  }
+  button:focus,
+  button:focus-visible {
+    box-shadow: none;
+  }
+
   .card {
-    background-color: #ffffff;
+    @apply shadow-dark-sm;
+    /*box-shadow: 0 0 1em var(--color-shadow);*/
+    /*color: var(--color-text);*/
+    /*color: var(--color-secondary);*/
+    /*background-color: var(--color-background);*/
   }
-  code,
+
+
+  code {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+
   pre {
     background-color: var(--color-background);
     color: var(--color-text);

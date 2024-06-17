@@ -1,16 +1,44 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 
-const predictionSchema = new Schema({
-  input: {
-    Open: { type: Number, required: true },
-    High: { type: Number, required: true },
-    Low: { type: Number, required: true },
-    Close: { type: Number, required: true },
+const InputSchema = new mongoose.Schema({
+  Open: {
+    type: Number,
+    min: 0,
+    required: true,
   },
-  predictedVolume: { type: Number, required: true },
-  date: { type: Date, default: Date.now },
-});
+  High: {
+    type: Number,
+    min: 0,
+    required: true,
+  },
+  Low: {
+    type: Number,
+    min: 0,
+    required: true,
+  },
+  Close: {
+    type: Number,
+    min: 0,
+    required: true,
+  },
+}, { _id: false });
 
-const Prediction = model('Prediction', predictionSchema);
+const PredictionSchema = new mongoose.Schema({
+  input: {
+    type: InputSchema,
+    required: true,
+  },
+  predictedVolume: {
+    type: Number,
+    min: 0,
+    required: true,
+  },
+}, { timestamps: true });
+
+// Add indexes if necessary based on your query patterns
+// For example, if you frequently query by predictedVolume, you might add an index on it:
+// PredictionSchema.index({ predictedVolume: 1 });
+
+const Prediction = mongoose.model('Prediction', PredictionSchema);
 
 export default Prediction;

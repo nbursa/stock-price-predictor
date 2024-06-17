@@ -1,14 +1,14 @@
-import { Router } from 'express'
+import { Router } from 'express';
 import {
   getStocks,
   addStock,
   predictStock,
-} from '../controllers/stockController'
+} from '../controllers/stockController';
 
-const router = Router()
+const stockRouter = Router();
 
-router.get('/', getStocks)
-router.post('/', addStock)
-router.post('/predict', predictStock)
+stockRouter.get('/', getStocks);
+stockRouter.post('/', addStock);
+stockRouter.post('/predict', predictStock);
 
-export default router
+export default stockRouter;

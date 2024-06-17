@@ -12,13 +12,13 @@
       <div class="p-6 max-w-lg mx-auto">
         <h2 class="text-2xl font-semibold text-center">Features</h2>
         <ul class="mt-4 p-0 space-y-2 text-center">
-          <li class="text-gray-200">Fetch historical stock price data</li>
-          <li class="text-gray-200">Clean and preprocess data</li>
-          <li class="text-gray-200">
+          <li class="">Fetch historical stock price data</li>
+          <li class="">Clean and preprocess data</li>
+          <li class="">
             Implement and evaluate multiple machine learning models
           </li>
-          <li class="text-gray-200">Real-time stock price updates</li>
-          <li class="text-gray-200">Interactive visualizations</li>
+          <li class="">Real-time stock price updates</li>
+          <li class="">Interactive visualizations</li>
         </ul>
       </div>
     </main>
