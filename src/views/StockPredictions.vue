@@ -1,6 +1,10 @@
 <template>
   <div class="p-6 min-h-screen">
-    <h1 class="text-3xl font-bold mb-6">Stock Predictions</h1>
+    <!--    <h1 class="text-3xl font-bold mb-6">Stock Predictions</h1>-->
+    <header class="mb-10 text-center">
+      <h1 class="text-2xl font-bold mb-2">Stock Predictions</h1>
+      <p class="text-sm">Train model for prediction.</p>
+    </header>
     <!-- Train Model Form -->
     <form @submit.prevent="trainStock" class="mb-1 max-w-xl mx-auto">
       <div class="grid grid-cols-2 gap-4 mb-8">

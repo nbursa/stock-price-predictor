@@ -1,6 +1,6 @@
 <template>
   <div class="settings min-h-screen p-4">
-    <header class="mb-6">
+    <header class="mb-10 text-center">
       <h1 class="text-2xl font-bold mb-2">Settings</h1>
       <p class="text-sm">Configure application settings.</p>
     </header>

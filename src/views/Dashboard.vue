@@ -1,29 +1,35 @@
 <template>
   <div class="min-h-screen p-4">
-    <header class="mb-6">
-      <h1 class="text-4xl font-bold mb-2">Dashboard</h1>
-      <p class="text-lg">Overview of stock predictions and analysis.</p>
+    <header class="mb-10 text-center">
+      <h1 class="text-2xl font-bold mb-2">Dashboard</h1>
+      <p class="text-sm">Overview of stock predictions and analysis.</p>
     </header>
-    <section class="flex flex-col md:flex-row gap-6 mb-6">
-      <div class="p-6 rounded-lg shadow-light-sm dark:shadow-dark-sm">
-        <h2 class="text-xl font-semibold mb-2">Total Stocks Analyzed</h2>
-        <p class="text-3xl font-bold text-blue-300">{{ totalStocks }}</p>
+    <section
+      class="flex flex-col items-center justify-center md:flex-row gap-6 mb-6"
+    >
+      <div class="p-4 rounded-lg shadow-light-sm dark:shadow-dark-sm">
+        <h2 class="text-sm font-semibold mb-2">Total Stocks Analyzed</h2>
+        <p class="text-3xl font-bold text-center text-blue-300">
+          {{ totalStocks }}
+        </p>
       </div>
-      <div class="card p-6 rounded-lg shadow-light-sm dark:shadow-dark-sm">
-        <h2 class="text-xl font-semibold mb-2">Prediction Accuracy</h2>
-        <p class="text-3xl font-bold text-green-500">
+      <div class="card p-4 rounded-lg shadow-light-sm dark:shadow-dark-sm">
+        <h2 class="text-sm font-semibold mb-2">Prediction Accuracy</h2>
+        <p class="text-3xl font-bold text-center text-green-500">
           {{ predictionAccuracy }}%
         </p>
       </div>
-      <div class="card p-6 rounded-lg shadow-light-sm dark:shadow-dark-sm">
-        <h2 class="text-xl font-semibold mb-2">Most Predicted Stock</h2>
-        <p class="text-3xl font-bold text-red-500">{{ mostPredictedStock }}</p>
+      <div class="card p-4 rounded-lg shadow-light-sm dark:shadow-dark-sm">
+        <h2 class="text-sm font-semibold mb-2">Most Predicted Stock</h2>
+        <p class="text-3xl font-bold text-center text-red-500">
+          {{ mostPredictedStock }}
+        </p>
       </div>
     </section>
-    <section class="rounded-lg shadow-light-sm dark:shadow-dark-sm p-6 mb-6">
-      <h2 class="text-2xl font-semibold mb-4">Recent Predictions</h2>
+    <section class="rounded-lg shadow-light-sm dark:shadow-dark-sm p-4 mb-6">
+      <h2 class="text-xl font-semibold mb-4 text-center">Recent Predictions</h2>
       <div class="flex flex-col">
-        <div class="flex font-semibold">
+        <div class="flex text-sm font-semibold">
           <div class="w-1/4 py-2 px-4">Stock</div>
           <div class="w-1/4 py-2 px-4">Predicted Price</div>
           <div class="w-1/4 py-2 px-4">Actual Price</div>
@@ -41,9 +47,9 @@
         </div>
       </div>
     </section>
-    <section class="rounded-lg p-6">
-      <h2 class="text-2xl font-semibold mb-4">Stock Performance</h2>
-      <div class="relative h-64">
+    <section class="rounded-lg p-4 shadow-light-sm dark:shadow-dark-sm">
+      <h2 class="text-xl text-center font-semibold mb-4">Stock Performance</h2>
+      <div class="relative h-64 shadow-sm">
         <canvas ref="performanceChart"></canvas>
       </div>
     </section>
